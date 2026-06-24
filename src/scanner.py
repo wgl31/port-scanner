@@ -2,6 +2,7 @@
 #core scaning logic - TCP connect scanning 
 
 import socket 
+from concurrent.futures import ThreadPoolExecutor
 
 def scan_ports(ip, port, timeout=1):
     #attempts a TCP connection to ip:port 
@@ -19,9 +20,13 @@ def scan_target(ip, ports, timeout=1):
     #scans a list of ports on a single ip
     #returns a list of open ports
 
-    result=[]
-    for port in ports:
-        if scan_ports(ip, port):
-            result.append(port)
+    open_ports=[]
+    with ThreadPoolExecutor(max_workers=100) as executor:
+        results = executor.map(lambda port: scan_ports(ip, port, timeout), ports)
+
+
+    for port, is_open in zip(ports, results):
+        if is_open:
+            open_ports.append(port)
         
-    return result
+    return open_ports
