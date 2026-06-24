@@ -28,7 +28,7 @@ def main():
         open_ports = scan_target(ip,ports)
         for port in open_ports:
             banner = grab_banner(ip,port)
-            service = identify_service(banner)
+            service = identify_service(banner,port)
             results.append({'ip' : ip, 'port' : port, 'service' : service})
 
 

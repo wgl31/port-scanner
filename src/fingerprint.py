@@ -26,11 +26,24 @@ def grab_banner(ip, port, timeout=1):
     finally:
         sock.close()
 
-def identify_service(banner):
+def identify_service(banner, port):
     # takes a banner string
     # returns a plain string naming the service
+    KNOWN_PORTS = {
+        22: "SSH",
+        53: "DNS",
+        80: "HTTP",
+        443: "HTTPS",
+        21: "FTP",
+        25: "SMTP",
+        3306: "MySQL",
+        5432: "PostgreSQL",
+    }
     
     if banner is None:
+        if port in KNOWN_PORTS:
+            return KNOWN_PORTS[port]
+
         return "Unknown"
 
     elif "SSH" in banner:
@@ -46,4 +59,7 @@ def identify_service(banner):
         return "FTP"
     
     else:
+        if port in KNOWN_PORTS:
+            return KNOWN_PORTS[port]
+        
         return "Unknown"
