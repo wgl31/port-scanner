@@ -4,7 +4,7 @@
 import argparse 
 import sys 
 
-from scanner import scan_ports, scan_target
+from scanner import scan_target
 from resolver import resolve_target
 from fingerprint import grab_banner, identify_service
 from reporter import print_results, save_json

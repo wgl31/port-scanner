@@ -18,6 +18,7 @@ def resolve_target(target):
         
         except:
             print(f"could not resolve {target}")
+            return []
 
 
 

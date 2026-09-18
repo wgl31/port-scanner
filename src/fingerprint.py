@@ -9,7 +9,8 @@ def grab_banner(ip, port, timeout=1):
     sock.settimeout(timeout)
 
     try:
-        sock.connect_ex((ip,port))
+        if sock.connect_ex((ip,port)) != 0:
+            return None
         try:
             banner = sock.recv(1024).decode().strip()
 
